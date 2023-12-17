@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Call Example</title>
+</head>
+<body>
+
+    <h1>Product List</h1>
+    <ul id="productList">
+         
+    </ul>
+
+    <script>
+        // Make a GET request to the API endpoint
+        fetch('https://657ad086394ca9e4af12b9e0.mockapi.io/todos')
+            .then(response => {
+                // Check if the response is successful (status code 200-299)
+                if (!response.ok) {
+                    throw new Error(`Network response was not ok: ${response.statusText}`);
+                }
+                // Parse the JSON from the response
+                return response.json();
+            })
+            .then(data => {
+                // Display the data in the UI
+                displayProductList(data);
+                console.log(data)
+            })
+            .catch(error => {
+                // Handle any errors that occurred during the fetch
+                console.error('Fetch error:', error);
+            });
+
+        function displayProductList(products) {
+            const productListElement = document.getElementById('productList');
+            // Clear existing content
+            productListElement.innerHTML = '';
+
+            // Loop through the products and create list items
+            products.forEach(product => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `${product.task} - $${product.id}`;
+                productListElement.appendChild(listItem);
+            });
+        }
+    </script>
+
+</body>
+</html>
